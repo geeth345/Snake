@@ -23,7 +23,7 @@ let snake = [
 ]
 
 // current movement direction stored as interger
-let direction = 1;
+var direction = 1;
 
 function clear() {
     board_ctx.fillStyle = bg_colour;
@@ -52,18 +52,41 @@ function advanceSnake() {
 function newStartOfSnake() {
     x = snake[snake.length - 1].x;
     y = snake[snake.length - 1].y;
-    console.log(x, y);
-    if (direction = 0) {
+    if (direction == 0) {
         return {x: x, y: y - 1};
-    } else if (direction = 1) {
+    } else if (direction == 1) {
         return {x: x + 1, y: y};
-    } else if (direction = 2) {
+    } else if (direction == 2) {
         return {x: x, y: y + 1};
-    } else if (direction = 3) {
+    } else if (direction == 3) {
         return {x: x - 1, y: y};
     }
 }
 
+// handle when a user input is received
+function handleKeyPress(event) {
+    const key = event.keyCode;
+
+    // keycodes for directions
+    const UP = 38;
+    const RIGHT = 39;
+    const DOWN = 40;
+    const LEFT = 37;
+
+    // process keycodes
+    if (key === UP && (direction % 2) != 0) {
+        direction = 0;
+    } else if (key === RIGHT && (direction % 2) == 0) {
+        direction = 1;
+    } else if (key === DOWN && (direction % 2) != 0) {
+        direction = 2;
+    } else if (key === LEFT && (direction % 2) == 0) {
+        direction = 3;
+    } 
+}
+
+// add the listener to call the key press handling function
+document.addEventListener("keydown", handleKeyPress);
 
 clear();
 renderSnake();
@@ -73,5 +96,5 @@ function main() {
     clear();
     renderSnake();
     advanceSnake();
-    setTimeout(() => { main(); }, 500);
+    setTimeout(() => { main(); }, 200);
 }
