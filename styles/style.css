@@ -1,0 +1,14 @@
+body { 
+    background-color: #9999ff;
+}
+
+canvas {
+    border: black;
+    border-width: 5px;
+    border-style: solid;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
