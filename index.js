@@ -2,18 +2,18 @@ const board = document.getElementById("game");
 const board_ctx = board.getContext("2d");
 
 // colours
-bg_colour = 'grey'
-snake_colour = 'purple'
+bgColour = 'grey'
+snakeColour = 'purple'
 
 // the width and height of the play area (grid squares)
 const width = 20;
 const height = 20;
 
-// object constructor to represent coordinates
-function Coord(X, Y) {
-    this.x = X;
-    this.y = Y;
-}
+// keycodes for directions
+const UP = 38;
+const RIGHT = 39;
+const DOWN = 40;
+const LEFT = 37;
 
 // snake defined as an array of coordinates
 let snake = [
@@ -25,8 +25,12 @@ let snake = [
 // current movement direction stored as interger
 var direction = 1;
 
+// player's moves are stored as a queue, allowing for more natural controls
+let moveQueue = [];
+
+
 function clear() {
-    board_ctx.fillStyle = bg_colour;
+    board_ctx.fillStyle = bgColour;
     board_ctx.fillRect(0, 0, board.width, board.height);
     
 }
@@ -39,12 +43,24 @@ function renderSnake() {
 function renderSnakeUnit(unit) {
     let X = (unit.x / width) * board.width;
     let Y = (unit.y / height) * board.height;
-    board_ctx.fillStyle = snake_colour;
+    board_ctx.fillStyle = snakeColour;
     board_ctx.fillRect(X, Y, 20, 20);
 }
 
 // snake advances by adding a new unit to the front of the snake and removing the last one
 function advanceSnake() {
+    if (moveQueue.length > 0) {
+        var key = moveQueue.shift();
+        if (key === UP && (direction % 2) != 0) {
+            direction = 0;
+        } else if (key === RIGHT && (direction % 2) == 0) {
+            direction = 1;
+        } else if (key === DOWN && (direction % 2) != 0) {
+            direction = 2;
+        } else if (key === LEFT && (direction % 2) == 0) {
+            direction = 3;
+        } 
+    }
     snake.push(newStartOfSnake())
     snake.shift();
 }
@@ -66,23 +82,10 @@ function newStartOfSnake() {
 // handle when a user input is received
 function handleKeyPress(event) {
     const key = event.keyCode;
-
-    // keycodes for directions
-    const UP = 38;
-    const RIGHT = 39;
-    const DOWN = 40;
-    const LEFT = 37;
-
-    // process keycodes
-    if (key === UP && (direction % 2) != 0) {
-        direction = 0;
-    } else if (key === RIGHT && (direction % 2) == 0) {
-        direction = 1;
-    } else if (key === DOWN && (direction % 2) != 0) {
-        direction = 2;
-    } else if (key === LEFT && (direction % 2) == 0) {
-        direction = 3;
-    } 
+    // process keycodes: if the key pressed is a move, add it to the queue
+    if (key >= 37 && key <= 40 && moveQueue.length <= 2) {
+        moveQueue.push(key);
+    }
 }
 
 // add the listener to call the key press handling function
