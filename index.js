@@ -2,12 +2,16 @@ const board = document.getElementById("game");
 const board_ctx = board.getContext("2d");
 
 // colours
-bgColour = 'grey'
-snakeColour = 'purple'
+bgColour = "grey";
+snakeColour = "purple";
+deathColour = "red";
 
 // the width and height of the play area (grid squares)
-const width = 20;
-const height = 20;
+const width = 50;
+const height = 50;
+const unitWidth = board.width / width;
+const unitHeight = board.height / height;
+
 
 // keycodes for directions
 const UP = 38;
@@ -17,6 +21,8 @@ const LEFT = 37;
 
 // snake defined as an array of coordinates
 let snake = [
+    {x: 7, y: 10},
+    {x: 8, y: 10},
     {x: 9, y: 10},
     {x: 10, y: 10},
     {x: 11, y: 10}
@@ -28,6 +34,9 @@ var direction = 1;
 // player's moves are stored as a queue, allowing for more natural controls
 let moveQueue = [];
 
+// current game state
+var alive = true;
+
 
 function clear() {
     board_ctx.fillStyle = bgColour;
@@ -36,15 +45,22 @@ function clear() {
 }
 
 function renderSnake() {
-    snake.forEach(renderSnakeUnit);
-
+    snake.forEach(unit => {
+        renderSnakeUnit(unit, snakeColour);
+    });
 }
 
-function renderSnakeUnit(unit) {
+function renderSnakeUnit(unit, colour) {
     let X = (unit.x / width) * board.width;
     let Y = (unit.y / height) * board.height;
-    board_ctx.fillStyle = snakeColour;
-    board_ctx.fillRect(X, Y, 20, 20);
+    board_ctx.fillStyle = colour;
+    board_ctx.fillRect(X, Y, unitWidth, unitHeight);
+}
+
+function renderDeath() {
+    snake.forEach(unit => {
+        renderSnakeUnit(unit, deathColour);
+    });
 }
 
 // snake advances by adding a new unit to the front of the snake and removing the last one
@@ -61,8 +77,14 @@ function advanceSnake() {
             direction = 3;
         } 
     }
-    snake.push(newStartOfSnake())
-    snake.shift();
+    start = newStartOfSnake();
+    if (start.x < 0 || start.y < 0 || start.x >= width || start.y >= height || start in snake) {
+        alive = false;
+    }
+    if (alive) {
+        snake.push(start);
+        snake.shift();
+    }
 }
 
 function newStartOfSnake() {
@@ -96,8 +118,16 @@ renderSnake();
 main();
 
 function main() {
-    clear();
-    renderSnake();
+    // movement phase 
     advanceSnake();
-    setTimeout(() => { main(); }, 200);
+
+    // drawing phase
+    clear();
+    if (alive) {
+        renderSnake();
+        setTimeout(() => { main(); }, 100); // delay
+    } else {
+        renderDeath();
+    }
+
 }
