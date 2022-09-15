@@ -7,8 +7,8 @@ snakeColour = "purple";
 deathColour = "red";
 
 // the width and height of the play area (grid squares)
-const width = 50;
-const height = 50;
+const width = 20;
+const height = 20;
 const unitWidth = board.width / width;
 const unitHeight = board.height / height;
 
@@ -78,9 +78,9 @@ function advanceSnake() {
         } 
     }
     start = newStartOfSnake();
-    if (start.x < 0 || start.y < 0 || start.x >= width || start.y >= height || start in snake) {
+    if (start.x < 0 || start.y < 0 || start.x >= width || start.y >= height || snake.some((u) => u.x == start.x && u.y == start.y)) {
         alive = false;
-    }
+    } 
     if (alive) {
         snake.push(start);
         snake.shift();
