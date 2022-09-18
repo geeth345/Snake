@@ -5,6 +5,7 @@ const board_ctx = board.getContext("2d");
 bgColour = "grey";
 snakeColour = "purple";
 deathColour = "red";
+foodColour = "green"
 
 // the width and height of the play area (grid squares)
 const width = 20;
@@ -21,12 +22,16 @@ const LEFT = 37;
 
 // snake defined as an array of coordinates
 let snake = [
-    {x: 7, y: 10},
-    {x: 8, y: 10},
     {x: 9, y: 10},
     {x: 10, y: 10},
     {x: 11, y: 10}
 ]
+
+// food defined as an array of coordinates
+let food = {x: 15, y: 15}
+
+// score 
+let score = 0
 
 // current movement direction stored as interger
 var direction = 1;
@@ -46,11 +51,11 @@ function clear() {
 
 function renderSnake() {
     snake.forEach(unit => {
-        renderSnakeUnit(unit, snakeColour);
+        fillCoord(unit, snakeColour);
     });
 }
 
-function renderSnakeUnit(unit, colour) {
+function fillCoord(unit, colour) {
     let X = (unit.x / width) * board.width;
     let Y = (unit.y / height) * board.height;
     board_ctx.fillStyle = colour;
@@ -59,8 +64,12 @@ function renderSnakeUnit(unit, colour) {
 
 function renderDeath() {
     snake.forEach(unit => {
-        renderSnakeUnit(unit, deathColour);
+        fillCoord(unit, deathColour);
     });
+}
+
+function renderFood() {
+    fillCoord(food, foodColour);
 }
 
 // snake advances by adding a new unit to the front of the snake and removing the last one
@@ -82,9 +91,16 @@ function advanceSnake() {
         alive = false;
     } 
     if (alive) {
-        snake.push(start);
-        snake.shift();
+        // checking if the coordinate the snake is moving into has food in it
+        if (food.x == start.x && food.y == start.y) {
+            snake.push(start);
+            resetFood();
+        } else {
+            snake.push(start);
+            snake.shift();
+        }
     }
+
 }
 
 function newStartOfSnake() {
@@ -99,6 +115,11 @@ function newStartOfSnake() {
     } else if (direction == 3) {
         return {x: x - 1, y: y};
     }
+}
+
+function resetFood() {
+    food.x = Math.floor(Math.random() * width);
+    food.y = Math.floor(Math.random() * height);
 }
 
 // handle when a user input is received
@@ -122,11 +143,13 @@ function main() {
     advanceSnake();
 
     // drawing phase
-    clear();
     if (alive) {
+        clear();
+        renderFood();
         renderSnake();
         setTimeout(() => { main(); }, 100); // delay
     } else {
+        clear();
         renderDeath();
     }
 
