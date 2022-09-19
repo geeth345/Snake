@@ -118,8 +118,14 @@ function newStartOfSnake() {
 }
 
 function resetFood() {
-    food.x = Math.floor(Math.random() * width);
-    food.y = Math.floor(Math.random() * height);
+    collision = true;
+    while (collision) {
+        food.x = Math.floor(Math.random() * width);
+        food.y = Math.floor(Math.random() * height);
+        if (snake.some((u) => u.x != food.x && u.y != food.y)) {
+            collision = false;
+        }
+    }
 }
 
 // handle when a user input is received
