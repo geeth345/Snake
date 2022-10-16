@@ -18,6 +18,14 @@ h1 {
     font-weight: bold;
 }
 
+#instructions {
+    font-size: 2vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
 .game {
     text-align: center;
     align-items: center;
@@ -40,7 +48,7 @@ button {
 	border:5px solid #2a9d8f;
 	display:inline-block;
 	color:#2a9d8f;
-	font-family: Helvetica, Arial, sans-serif;;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size: 5vh;
 	font-weight:bold;
     margin-top: 3vh;
