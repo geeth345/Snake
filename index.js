@@ -18,12 +18,13 @@ const UP = 38;
 const RIGHT = 39;
 const DOWN = 40;
 const LEFT = 37;
+const ENTER = 13;
 
 // snake defined as an array of coordinates
 let snake = [
-    {x: 9, y: 10},
-    {x: 10, y: 10},
-    {x: 11, y: 10}
+    {x: 3, y: 10},
+    {x: 4, y: 10},
+    {x: 5, y: 10}
 ]
 
 // food defined as an array of coordinates
@@ -32,6 +33,7 @@ let food = {x: 15, y: 15}
 // score 
 let score = 0;
 const scoreboard = document.getElementById("score");
+scoreboard.innerText = score;
 
 // restart button
 const restart = document.getElementById("newgame");
@@ -43,7 +45,7 @@ var direction = 1;
 let moveQueue = [];
 
 // current game state
-var alive = true;
+var alive = false;
 
 
 function clear() {
@@ -137,8 +139,15 @@ function handleKeyPress(event) {
     // process keycodes: if the key pressed is a move, add it to the queue
     if (key >= 37 && key <= 40 && moveQueue.length <= 2) {
         moveQueue.push(key);
+    } else if (key == 13) {
+        startNewGame();
     }
 }
+
+// handle new game button being pressed
+restart.addEventListener("click", function() {
+    startNewGame();
+})
 
 // add the listener to call the key press handling function
 document.addEventListener("keydown", handleKeyPress);
@@ -164,26 +173,21 @@ function main() {
 
 
 function startNewGame() {
-    score = 0;
-    alive = true;
-    scoreboard.innerText = score;
-    snake = [
-        {x: 9, y: 10},
-        {x: 10, y: 10},
-        {x: 11, y: 10}
-    ];
-    food = {x: 15, y: 15};
-    moveQueue = [];
-    clear();
-    renderSnake();
-    main();
+    if (!alive) {
+        snake = [
+            {x: 3, y: 10},
+            {x: 4, y: 10},
+            {x: 5, y: 10}
+        ];
+        score = 0;
+        alive = true;
+        scoreboard.innerText = score;
+        moveQueue = [];
+        resetFood();
+        clear();
+        renderSnake();
+        main();
+    }
 }
 
-restart.addEventListener("click", function() {
-    if (!alive) {
-        startNewGame();
-    }
-})
-
-
-startNewGame();
+renderSnake();
