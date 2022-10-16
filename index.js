@@ -33,6 +33,9 @@ let food = {x: 15, y: 15}
 let score = 0;
 const scoreboard = document.getElementById("score");
 
+// restart button
+const restart = document.getElementById("newgame");
+
 // current movement direction stored as interger
 var direction = 1;
 
@@ -162,10 +165,25 @@ function main() {
 
 function startNewGame() {
     score = 0;
+    alive = true;
     scoreboard.innerText = score;
+    snake = [
+        {x: 9, y: 10},
+        {x: 10, y: 10},
+        {x: 11, y: 10}
+    ];
+    food = {x: 15, y: 15};
+    moveQueue = [];
     clear();
     renderSnake();
     main();
 }
+
+restart.addEventListener("click", function() {
+    if (!alive) {
+        startNewGame();
+    }
+})
+
 
 startNewGame();
