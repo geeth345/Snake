@@ -2,10 +2,9 @@ const board = document.getElementById("game");
 const board_ctx = board.getContext("2d");
 
 // colours
-bgColour = "grey";
-snakeColour = "purple";
-deathColour = "red";
-foodColour = "green"
+snakeColour = "#e9c46a";
+deathColour = "#ff9241";
+foodColour = "#e76f51";
 
 // the width and height of the play area (grid squares)
 const width = 20;
@@ -45,9 +44,7 @@ var alive = true;
 
 
 function clear() {
-    board_ctx.fillStyle = bgColour;
-    board_ctx.fillRect(0, 0, board.width, board.height);
-    
+    board_ctx.clearRect(0, 0, board.width, board.height);
 }
 
 function renderSnake() {

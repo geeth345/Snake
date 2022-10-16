@@ -1,17 +1,21 @@
 body { 
-    background-color: #9999ff;
+    background-color: #264653;
+    color: #2a9d8f
 }
 
 h1 {
     font-size: 7vh;
     margin-top: 1vh;
     margin-bottom: 1vh;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 #score {
     font-size: 10vh;
     margin-top: 1vh;
     margin-bottom: 1vh;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }
 
 .game {
@@ -23,9 +27,24 @@ h1 {
 }
 
 canvas {
-    border: black;
+    border: #2a9d8f;
     border-width: 5px;
     border-style: solid;
+    background-color: #264653;
+    width: 50vh;
+    height: 50vh;
+}
 
+button {
+    background-color:#264653;
+	border:5px solid #2a9d8f;
+	display:inline-block;
+	color:#2a9d8f;
+	font-family: Helvetica, Arial, sans-serif;;
+	font-size: 5vh;
+	font-weight:bold;
+    margin-top: 3vh;
+    margin-bottom: 1vh;
+    padding: 6px 24px;
 }
 
