@@ -125,7 +125,7 @@ function resetFood() {
     while (collision) {
         food.x = Math.floor(Math.random() * width);
         food.y = Math.floor(Math.random() * height);
-        if (snake.some((u) => u.x != food.x && u.y != food.y)) {
+        if (!(snake.some((u) => u.x == food.x && u.y == food.y))) {
             collision = false;
         }
     }
