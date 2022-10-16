@@ -2,13 +2,30 @@ body {
     background-color: #9999ff;
 }
 
+h1 {
+    font-size: 7vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+#score {
+    font-size: 10vh;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.game {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 canvas {
     border: black;
     border-width: 5px;
     border-style: solid;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
 }
 

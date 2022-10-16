@@ -31,7 +31,8 @@ let snake = [
 let food = {x: 15, y: 15}
 
 // score 
-let score = 0
+let score = 0;
+const scoreboard = document.getElementById("score");
 
 // current movement direction stored as interger
 var direction = 1;
@@ -95,6 +96,8 @@ function advanceSnake() {
         if (food.x == start.x && food.y == start.y) {
             snake.push(start);
             resetFood();
+            score += 10;
+            scoreboard.innerText = score;
         } else {
             snake.push(start);
             snake.shift();
@@ -140,9 +143,7 @@ function handleKeyPress(event) {
 // add the listener to call the key press handling function
 document.addEventListener("keydown", handleKeyPress);
 
-clear();
-renderSnake();
-main();
+
 
 function main() {
     // movement phase 
@@ -160,3 +161,14 @@ function main() {
     }
 
 }
+
+
+function startNewGame() {
+    score = 0;
+    scoreboard.innerText = score;
+    clear();
+    renderSnake();
+    main();
+}
+
+startNewGame();
